@@ -88,6 +88,7 @@ def pusher():
     print('PUSHER SET SUCCESS')
     push_users = pusher_check()
     while True:
+        now = datetime.now()
         push_time = [(7, 45), (9, 45), (13, 15), (15, 15), (18, 15)]
         push_time = [datetime(now.year, now.month, now.day, *i)for i in push_time]
         for index, value in enumerate(push_time):
@@ -102,6 +103,8 @@ def pusher():
                             if not index:
                                 user.send(get_weather())
                         break
+        while datetime.now().hour > 0:
+            pass
 
 try:
     _thread.start_new_thread(pusher, ())

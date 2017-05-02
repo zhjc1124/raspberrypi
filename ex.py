@@ -3,7 +3,7 @@ from mjlu import *
 from datetime import datetime, timedelta
 from collections import OrderedDict
 # 登录信息存在文件里防泄露
-connect_data = open("/home/zhc1124/db.txt", 'r')
+connect_data = open("/home/db.txt", 'r')
 data = connect_data.read().split('\n')
 
 connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
