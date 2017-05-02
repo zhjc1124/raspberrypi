@@ -84,26 +84,24 @@ def print_messages(msg):
                 chat.send('已'+msg.text)
 
 
-
 def pusher():
     print('PUSHER SET SUCCESS')
     push_users = pusher_check()
-    now = datetime.now()
-    today = datetime(now.year, now.month, now.day)
-    push_time = [(7, 45), (9, 45), (13, 15), (15, 15), (18, 15)]
-    push_time = [datetime(now.year, now.month, now.day, *i)for i in push_time]
-    for index, value in enumerate(push_time):
-        if datetime.now() < value:
-            while True:
-                if datetime.now() > value:
-                    for push_user in push_users:
-                        user = bot.friends().search(push_user[1])[0]
-                        course = get_course(*push_user[:2]).get(index)
-                        if course:
-                            user.send(course)
-                        if not index:
-                            user.send(get_weather())
-                    break
+    while True:
+        push_time = [(7, 45), (9, 45), (13, 15), (15, 15), (18, 15)]
+        push_time = [datetime(now.year, now.month, now.day, *i)for i in push_time]
+        for index, value in enumerate(push_time):
+            if datetime.now() < value:
+                while True:
+                    if datetime.now() > value:
+                        for push_user in push_users:
+                            user = bot.friends().search(push_user[1])[0]
+                            course = get_course(*push_user[:2]).get(index)
+                            if course:
+                                user.send(course)
+                            if not index:
+                                user.send(get_weather())
+                        break
 
 try:
     _thread.start_new_thread(pusher, ())
