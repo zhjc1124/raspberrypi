@@ -111,4 +111,4 @@ try:
     _thread.start_new_thread(pusher, ())
 except Exception:
     print("Error: 无法启动线程")
-embed()
+bot.join()
