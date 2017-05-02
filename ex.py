@@ -3,7 +3,7 @@ from mjlu import *
 from datetime import datetime, timedelta
 from collections import OrderedDict
 # 登录信息存在文件里防泄露
-connect_data = open("~/文档/db.txt", 'r')
+connect_data = open("/home/zhc1124/db.txt", 'r')
 data = connect_data.read().split('\n')
 
 connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
@@ -85,4 +85,11 @@ def pusher_check():
     return result
 
 
+def get_weather():
+    response = requests.get(
+        'https://api.seniverse.com/v3/weather/now.json?key=fe9tyhag4yireypf&location=changchun&language=zh-Hans&unit=c')
+    weather = json.loads(response.text)['results'][0]['now']
+    return '今日长春天气\n'\
+           '温度：' + weather['temperature'] +\
+           '度\n气象：' + weather['text']
 

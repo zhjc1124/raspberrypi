@@ -1,6 +1,7 @@
 from wxpy import *
 from ex import *
-import re, time
+import re
+import _thread
 bot = Bot(True, True)
 my_friend = bot.friends()
 
@@ -26,6 +27,13 @@ def print_messages(msg):
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
                 chat.send(infos)
+        if msg.text == '今日天气':
+            try:
+                weather = get_weather()
+            except UserError as e:
+                chat.send(e.value)
+            else:
+                chat.send(weather)
         if msg.text.startswith('@'):
             try:
                 username, password = msg.text[1:].split('+')
@@ -76,29 +84,29 @@ def print_messages(msg):
                 chat.send('已'+msg.text)
 
 
+
 def pusher():
+    print('PUSHER SET SUCCESS')
     push_users = pusher_check()
     now = datetime.now()
     today = datetime(now.year, now.month, now.day)
     push_time = [(7, 45), (9, 45), (13, 15), (15, 15), (18, 15)]
     push_time = [datetime(now.year, now.month, now.day, *i)for i in push_time]
     for index, value in enumerate(push_time):
-        while True:
-            if datetime.now() < value:
-                continue
-            for push_user in push_users:
-                user = bot.friends().search(push_user[1])[0]
-                course = get_course(*push_user[:2]).get(index)
-                if course:
-                    user.send(course)
-                if not index:
-                    response = requests.get('https://api.seniverse.com/v3/weather/now.json?key=fe9tyhag4yireypf&location=changchun&language=zh-Hans&unit=c')
-                    weather = json.loads(response.text)['results'][0]['now']
-                    user.send('今日长春天气\n'
-                              '温度：'+weather['temperature'] +
-                              '度\n气象：'+weather['text'])
-            break
+        if datetime.now() < value:
+            while True:
+                if datetime.now() > value:
+                    for push_user in push_users:
+                        user = bot.friends().search(push_user[1])[0]
+                        course = get_course(*push_user[:2]).get(index)
+                        if course:
+                            user.send(course)
+                        if not index:
+                            user.send(get_weather())
+                    break
 
-
-
+try:
+    _thread.start_new_thread(pusher, ())
+except Exception:
+    print("Error: 无法启动线程")
 embed()
