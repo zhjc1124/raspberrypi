@@ -19,7 +19,8 @@ def print_messages(msg):
                       '“个人网络信息”,可获取绑定的mac地址和分配的ip,\n'
                       '“查[第一/1学期]成绩”,默认获取最新成绩,\n'
                       '“今/明日课表”来获取课表,\n'
-                      '“开启/关闭课表推送”,\n')
+                      '“开启/关闭课表推送”,\n'
+                      '“今日天气”,\n')
         if msg.text == '个人网络信息':
             try:
                 infos = get_infos(wxid, nick_name)
