@@ -2,10 +2,15 @@ from wxpy import *
 from ex import *
 import re
 import _thread
+
+import time
+time.sleep(20)
+with open('/tmp/wechat_log.txt', 'w+') as f:
+    f.write(time.asctime(time.localtime(time.time()))+'\n')
+
 bot = Bot(True, True)
 my_friend = bot.friends()
 my_friend.search('6677')[0].send('已开启服务')
-
 
 @bot.register(my_friend)
 def print_messages(msg):
