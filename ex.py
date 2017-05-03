@@ -90,6 +90,6 @@ def get_weather():
         'https://api.seniverse.com/v3/weather/now.json?key=fe9tyhag4yireypf&location=changchun&language=zh-Hans&unit=c')
     weather = json.loads(response.text)['results'][0]
     return '长春天气\n更新时间:\n' + weather['last_update'].split('+')[0] +\
-           '温度：' + weather['now']['temperature'] +\
-           '度\n气象：' + weather['now']['text']
+           '\n温度：' + weather['now']['temperature'] +\
+           '℃\n气象：' + weather['now']['text']
 
