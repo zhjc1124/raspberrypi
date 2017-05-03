@@ -10,7 +10,7 @@ with open('/tmp/wechat_log.txt', 'w+') as f:
 
 bot = Bot(True, True)
 my_friend = bot.friends()
-my_friend.search('6677')[0].send('已开启服务')
+my_friend.search('Zzzzz')[0].send('已开启服务')
 
 
 @bot.register(my_friend)
