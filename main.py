@@ -87,7 +87,6 @@ def print_messages(msg):
 
 def pusher():
     print('PUSHER SET SUCCESS')
-    push_users = pusher_check()
     while True:
         now = datetime.now()
         push_time = [(7, 45), (9, 45), (13, 15), (15, 15), (18, 15)]
@@ -96,7 +95,7 @@ def pusher():
             if datetime.now() < value:
                 while True:
                     if datetime.now() > value:
-                        for push_user in push_users:
+                        for push_user in pusher_check():
                             user = bot.friends().search(push_user[1])[0]
                             course = get_course(*push_user[:2]).get(index)
                             if course:
@@ -107,8 +106,5 @@ def pusher():
         while datetime.now().hour > 0:
             pass
 
-try:
-    _thread.start_new_thread(pusher, ())
-except Exception:
-    print("Error: 无法启动线程")
+_thread.start_new_thread(pusher, ())
 bot.join()
