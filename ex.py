@@ -88,8 +88,8 @@ def pusher_check():
 def get_weather():
     response = requests.get(
         'https://api.seniverse.com/v3/weather/now.json?key=fe9tyhag4yireypf&location=changchun&language=zh-Hans&unit=c')
-    weather = json.loads(response.text)['results'][0]['now']
-    return '今日长春天气\n'\
-           '温度：' + weather['temperature'] +\
-           '度\n气象：' + weather['text']
+    weather = json.loads(response.text)['results'][0]
+    return '长春天气\n更新时间:' + weather['last_update'] +\
+           '温度：' + weather['now']['temperature'] +\
+           '度\n气象：' + weather['now']['text']
 
