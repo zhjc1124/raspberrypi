@@ -82,17 +82,17 @@ def get_fullinfos(wxid, nick_name):
     stu_info = mjlu(username, password).get_info()
     ip = stu_info['ip'][0]
     ip_info = stu_info['ip_info'][ip]
-    return '邮箱账号:' + stu_info['mail'] +\
-           '\n姓名:' + stu_info['name'] + \
-           '\n身份证号:' + stu_info['zhengjianhaoma'] +\
-           '\n学院:' + stu_info['class'] +\
-           '\nip地址:' + ip +\
-           '\n校园卡号:' + ip_info['id_name'] +\
-           '\n校区:' + ip_info['campus'] +\
-           '\n所在区域:' + ip_info['net_area'] +\
-           '\n宿舍号:' +  ip_info['home_addr'] +\
-           '电话号:' + ip_info['phone'] +\
-           'mac地址:' + ip_info['mac']
+    return '#邮箱账号:' + stu_info['mail'] +\
+           '\n#姓名:' + stu_info['name'] + \
+           '\n#身份证号:' + stu_info['zhengjianhaoma'] +\
+           '\n#学院:' + stu_info['class'] +\
+           '\n#ip地址:' + ip +\
+           '\n#校园卡号:' + ip_info['id_name'] +\
+           '\n#校区:' + ip_info['campus'] +\
+           '\n#所在区域:' + ip_info['net_area'] +\
+           '\n#宿舍号:' +  ip_info['home_addr'] +\
+           '\n#电话号:' + ip_info['phone'] +\
+           '\n#mac地址:' + ip_info['mac']
 
 
 def pusher_check():
