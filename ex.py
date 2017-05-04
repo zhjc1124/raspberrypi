@@ -81,8 +81,6 @@ def get_infos(wxid, nick_name, full=False):
     ip = stu_info['ip'][0]
     ip_info = stu_info['ip_info'][ip]
     if full:
-        return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
-    else:
         return '#邮箱账号:' + stu_info['mail'] + \
                '\n#姓名:' + stu_info['name'] + \
                '\n#身份证号:' + stu_info['zhengjianhaoma'] + \
@@ -94,7 +92,8 @@ def get_infos(wxid, nick_name, full=False):
                '\n#宿舍号:' + ip_info['home_addr'] + \
                '\n#电话号:' + ip_info['phone'] + \
                '\n#mac地址:' + ip_info['mac']
-
+    else:
+        return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
 
 def pusher_check():
     with connections.cursor() as cursor:
