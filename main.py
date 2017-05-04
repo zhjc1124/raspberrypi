@@ -3,16 +3,27 @@ from ex import *
 import re
 import _thread
 
-import time
-time.sleep(20)
-with open('/tmp/wechat_log.txt', 'w+') as f:
-    f.write(time.asctime(time.localtime(time.time()))+'\n')
 
 bot = Bot(True, True)
 my_friend = bot.friends()
 my_friend.search('Zzzzz')[0].send('已开启服务')
 
 
+# 注册好友请求类消息
+@bot.register(msg_types=FRIENDS)
+# 自动接受验证信息中包含 'wxpy' 的好友请求
+def auto_accept_friends(msg):
+    new_friend = bot.accept_friend(msg.card)
+    new_friend.send('欢迎添加好友,指令帮助如下: '
+                    '可用指令：\n“@邮箱账号+密码”来绑定账号密码,\n'
+                    '“个人网络信息”,可获取绑定的mac地址和分配的ip,\n'
+                    '“查[第一/1学期]成绩”,默认获取最新成绩,\n'
+                    '“今/明日课表”来获取课表,\n'
+                    '“开启/关闭课表推送”,\n'
+                    '“今日天气”,\n')
+
+
+# 对消息进行回应
 @bot.register(my_friend)
 def print_messages(msg):
     chat = msg.chat
@@ -28,17 +39,15 @@ def print_messages(msg):
                       '“今/明日课表”来获取课表,\n'
                       '“开启/关闭课表推送”,\n'
                       '“今日天气”,\n')
-        if msg.text == '个人网络信息':
-            try:
-                infos = get_infos(wxid, nick_name)
-            except UserError as e:
-                chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
-            else:
-                chat.send(infos)
 
-        if msg.text == '个人完整信息':
+        if re.match('个人(.*?)信息', msg.text):
             try:
-                infos = get_fullinfos(wxid, nick_name)
+                txt = re.match('个人(.*?)信息', msg.text).group(1)
+                if txt == '网络':
+                    full = False
+                if txt == '完整':
+                    full = True
+                infos = get_infos(wxid, nick_name, full=full)
             except UserError as e:
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
@@ -51,12 +60,15 @@ def print_messages(msg):
                 chat.send(e.value)
             else:
                 chat.send(weather)
+
+        # 绑定邮箱账号相关
         if msg.text.startswith('@'):
             try:
                 username, password = msg.text[1:].split('+')
                 chat.send(save(wxid, nick_name, username, password))
             except UserError as e:
                 chat.send(e.value)
+
         if re.match('查(.*?)成绩', msg.text):
             if msg.text == '查成绩':
                 term = 0
@@ -69,13 +81,14 @@ def print_messages(msg):
                     term = num.get(term)
             try:
                 if type(term) == int:
-                    scores = get_lastscore(wxid, nick_name, term=term)
+                    scores = get_score(wxid, nick_name, term=term)
                 else:
                     raise UserError('格式错误,\n格式为“查[第一/1学期]成绩”。')
             except UserError as e:
                 chat.send(e.value)
             else:
                 chat.send(scores)
+
         if msg.text.endswith('日课表'):
             try:
                 if msg.text.startswith('明'):

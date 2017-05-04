@@ -11,6 +11,7 @@ connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
 connections.autocommit(1)
 
 
+# 保存(微信号,昵称,邮箱账号,密码)
 def save(wxid, nick_name, username, password):
     mjlu(username, password)
     with connections.cursor() as cursor:
@@ -20,6 +21,7 @@ def save(wxid, nick_name, username, password):
     return '绑定成功'
 
 
+# 根据微信号和昵称从数据库中读取昵称
 def db_load(wxid, nick_name):
     with connections.cursor() as cursor:
         cursor.execute('select * from user where wxid=%s and nick_name=%s;', (wxid, nick_name))
@@ -30,7 +32,8 @@ def db_load(wxid, nick_name):
             raise UserError('未绑定账号')
 
 
-def get_lastscore(wxid, nick_name, term=0):
+# 查询成绩
+def get_score(wxid, nick_name, term=0):
     username, password = db_load(wxid, nick_name)
     if not term:
         in_year = int(username[-4:])
@@ -43,6 +46,7 @@ def get_lastscore(wxid, nick_name, term=0):
     return reply[:-1]
 
 
+# 查询课表
 def get_course(wxid, nick_name, day=0):
     username, password = db_load(wxid, nick_name)
     courses = mjlu(username, password).get_course()
@@ -63,36 +67,33 @@ def get_course(wxid, nick_name, day=0):
     return course
 
 
+# 修改推送服务开启/关闭状态
 def pusher_record(wxid, nick_name, status):
     db_load(wxid, nick_name)
     with connections.cursor() as cursor:
         cursor.execute('update user set pusher=%s where wxid=%s and nick_name=%s;', (status, wxid, nick_name))
 
 
-def get_infos(wxid, nick_name):
+#获取网络
+def get_infos(wxid, nick_name, full=False):
     username, password = db_load(wxid, nick_name)
     stu_info = mjlu(username, password).get_info()
     ip = stu_info['ip'][0]
     ip_info = stu_info['ip_info'][ip]
-    return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
-
-
-def get_fullinfos(wxid, nick_name):
-    username, password = db_load(wxid, nick_name)
-    stu_info = mjlu(username, password).get_info()
-    ip = stu_info['ip'][0]
-    ip_info = stu_info['ip_info'][ip]
-    return '#邮箱账号:' + stu_info['mail'] +\
-           '\n#姓名:' + stu_info['name'] + \
-           '\n#身份证号:' + stu_info['zhengjianhaoma'] +\
-           '\n#学院:' + stu_info['class'] +\
-           '\n#ip地址:' + ip +\
-           '\n#校园卡号:' + ip_info['id_name'] +\
-           '\n#校区:' + ip_info['campus'] +\
-           '\n#所在区域:' + ip_info['net_area'] +\
-           '\n#宿舍号:' +  ip_info['home_addr'] +\
-           '\n#电话号:' + ip_info['phone'] +\
-           '\n#mac地址:' + ip_info['mac']
+    if full:
+        return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
+    else:
+        return '#邮箱账号:' + stu_info['mail'] + \
+               '\n#姓名:' + stu_info['name'] + \
+               '\n#身份证号:' + stu_info['zhengjianhaoma'] + \
+               '\n#学院:' + stu_info['class'] + \
+               '\n#ip地址:' + ip + \
+               '\n#校园卡号:' + ip_info['id_name'] + \
+               '\n#校区:' + ip_info['campus'] + \
+               '\n#所在区域:' + ip_info['net_area'] + \
+               '\n#宿舍号:' + ip_info['home_addr'] + \
+               '\n#电话号:' + ip_info['phone'] + \
+               '\n#mac地址:' + ip_info['mac']
 
 
 def pusher_check():
