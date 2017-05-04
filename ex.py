@@ -1,6 +1,6 @@
 import pymysql.cursors
 from mjlu import *
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import OrderedDict
 # 登录信息存在文件里防泄露
 connect_data = open("/home/db.txt", 'r')
@@ -77,6 +77,24 @@ def get_infos(wxid, nick_name):
     return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
 
 
+def get_fullinfos(wxid, nick_name):
+    username, password = db_load(wxid, nick_name)
+    stu_info = mjlu(username, password).get_info()
+    ip = stu_info['ip'][0]
+    ip_info = stu_info['ip_info'][ip]
+    return '邮箱账号:' + stu_info['mail'] +\
+           '\n姓名:' + stu_info['name'] + \
+           '\n身份证号:' + stu_info['zhengjianhaoma'] +\
+           '\n学院:' + stu_info['class'] +\
+           '\nip地址:' + ip +\
+           '\n校园卡号:' + ip_info['id_name'] +\
+           '\n校区:' + ip_info['campus'] +\
+           '\n所在区域:' + ip_info['net_area'] +\
+           '\n宿舍号:' +  ip_info['home_addr'] +\
+           '电话号:' + ip_info['phone'] +\
+           'mac地址:' + ip_info['mac']
+
+
 def pusher_check():
     with connections.cursor() as cursor:
         cursor.execute('select * from user where pusher=True;')
@@ -93,3 +111,6 @@ def get_weather():
            '\n温度：' + weather['now']['temperature'] +\
            '℃\n气象：' + weather['now']['text']
 
+
+def check_mac():
+    pass

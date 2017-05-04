@@ -35,6 +35,15 @@ def print_messages(msg):
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
                 chat.send(infos)
+
+        if msg.text == '个人完整信息':
+            try:
+                infos = get_fullinfos(wxid, nick_name)
+            except UserError as e:
+                chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
+            else:
+                chat.send(infos)
+
         if msg.text == '今日天气':
             try:
                 weather = get_weather()
