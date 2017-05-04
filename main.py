@@ -114,4 +114,4 @@ def pusher():
             pass
 
 _thread.start_new_thread(pusher, ())
-bot.join()
+embed()
