@@ -2,11 +2,13 @@ from wxpy import *
 from ex import *
 import re
 import _thread
+import time
 
 
 bot = Bot(True, True)
 my_friend = bot.friends()
-my_friend.search('Zzzzz')[0].send('已开启服务')
+myself = my_friend.search('Zzzzz')[0]
+myself.send('已开启服务')
 
 
 # 注册好友请求类消息
@@ -114,6 +116,32 @@ def print_messages(msg):
                 chat.send('已'+msg.text)
 
 
+def alarm():
+    s = requests.session()
+    post_data = {
+        'luci_username': 'root',
+        'luci_password': 'qwerty7620'
+    }
+    s.post('http://192.168.2.1/cgi-bin/luci/admin/network/wireless', post_data)
+    flag = 0
+
+    def check_mac():
+        time.sleep(1)
+        response = s.get('http://192.168.2.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
+        devices = json.loads(response.content.decode('utf8'))
+        return '90:FD:61:6E:07:A8' in devices[0]['assoclist']
+    while True:
+        mac_status = check_mac()
+        if not flag:
+            if not mac_status and sensor():
+                myself.send('2333')
+                flag +=1
+        if flag:
+            flag += 1
+        if flag == 600:
+            flag = 0
+
+
 def pusher():
     print('PUSHER SET SUCCESS')
     while True:
@@ -134,6 +162,7 @@ def pusher():
                         break
         while datetime.now().hour > 0:
             pass
-
-_thread.start_new_thread(pusher, ())
-embed()
+if __name__ == '__main__':
+    _thread.start_new_thread(pusher, ())
+    # _thread.start_new_thread(alarm, ())
+    embed()

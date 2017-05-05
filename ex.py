@@ -2,7 +2,6 @@ import pymysql.cursors
 from mjlu import *
 from datetime import datetime
 from collections import OrderedDict
-from bs4 import BeautifulSoup
 # 登录信息存在文件里防泄露
 connect_data = open("/home/db.txt", 'r')
 data = connect_data.read().split('\n')
@@ -96,6 +95,7 @@ def get_infos(wxid, nick_name, full=False):
     else:
         return '姓名:' + stu_info['name'] + '\nip地址:' + ip + '\nmac地址:' + ip_info['mac']
 
+
 def pusher_check():
     with connections.cursor() as cursor:
         cursor.execute('select * from user where pusher=True;')
@@ -113,23 +113,5 @@ def get_weather():
            '℃\n气象：' + weather['now']['text']
 
 
-def check_mac():
-    s = requests.session()
-    post_data = {
-        'luci_username': 'root',
-        'luci_password': 'qwerty7620'
-    }
-    headers = {
-        'Referer': 'http://192.168.2.1/cgi-bin/luci',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
-        'Accept-Language': 'zh-CN,zh;q=0.8',
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-    }
-    s.post('http://192.168.2.1/cgi-bin/luci', post_data)
-    response = s.get('http://192.168.2.1/cgi-bin/luci/admin/network/dhcp')
-    soup = BeautifulSoup(response.content.decode('utf8'), 'lxml')
-    tables = soup.find_all('tr')
-    print(tables)
 
-check_mac()
+
