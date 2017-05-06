@@ -52,12 +52,17 @@ def get_course(wxid, nick_name, day=0):
     courses = mjlu(username, password).get_course()
     weekday = datetime.now().weekday() + day
     week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    course = courses[weekday][week[weekday]]
-    numbers = ['First', 'Second', 'Third', 'Four', 'Five']
+    courses_ = {}
+    for course in courses:
+        courses_ = dict(courses_, **course)
+    course = courses_.get(week[weekday])
+    if not course:
+        return {}
     course_ = {}
     for i in course:
         course_ = dict(course_, **i)
     course = {}
+    numbers = ['First', 'Second', 'Third', 'Four', 'Five']
     for index, value in enumerate(numbers):
         _ = course_.get(value)
         if _:

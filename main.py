@@ -101,7 +101,10 @@ def print_messages(msg):
             except UserError as e:
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
-                chat.send(''.join(course.values()))
+                if course:
+                    chat.send(''.join(course.values()))
+                else:
+                    chat.send('无课')
 
         if msg.text.endswith('课表推送'):
             try:
@@ -132,10 +135,11 @@ def alarm():
         return '90:FD:61:6E:07:A8' in devices[0]['assoclist']
     while True:
         mac_status = check_mac()
-        if not flag:
-            if not mac_status and sensor():
-                myself.send('2333')
-                flag +=1
+        if mac_status:
+            flag = 0
+        elif not flag and sensor():
+            myself.send('2333')
+            flag += 1
         if flag:
             flag += 1
         if flag == 600:
