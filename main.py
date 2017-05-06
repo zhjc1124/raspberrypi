@@ -3,7 +3,7 @@ from ex import *
 import re
 import _thread
 import time
-
+from hardware import *
 
 bot = Bot(True, True)
 my_friend = bot.friends()
@@ -120,14 +120,14 @@ def alarm():
     s = requests.session()
     post_data = {
         'luci_username': 'root',
-        'luci_password': 'qwerty7620'
+        'luci_password': 'admin'
     }
-    s.post('http://192.168.2.1/cgi-bin/luci/admin/network/wireless', post_data)
+    s.post('http://192.168.1.1/cgi-bin/luci/admin/network/wireless', post_data)
     flag = 0
 
     def check_mac():
         time.sleep(1)
-        response = s.get('http://192.168.2.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
+        response = s.get('http://192.168.1.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
         devices = json.loads(response.content.decode('utf8'))
         return '90:FD:61:6E:07:A8' in devices[0]['assoclist']
     while True:
