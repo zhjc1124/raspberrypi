@@ -2,8 +2,10 @@ from wxpy import *
 from ex import *
 import re
 import _thread
-import time
-from hardware import *
+try:
+    from hardware import *
+except ImportError as e:
+    print(e)
 
 bot = Bot(True, True)
 my_friend = bot.friends()
@@ -17,17 +19,17 @@ myself.send('已开启服务')
 def auto_accept_friends(msg):
     new_friend = bot.accept_friend(msg.card)
     new_friend.send('欢迎添加好友,指令帮助如下: '
-                    '可用指令：\n“@邮箱账号+密码”来绑定账号密码,\n'
-                    '“个人网络信息”,可获取绑定的mac地址和分配的ip,\n'
-                    '“查[第一/1学期]成绩”,默认获取最新成绩,\n'
-                    '“今/明日课表”来获取课表,\n'
-                    '“开启/关闭课表推送”,\n'
-                    '“今日天气”,\n')
+                    '可用指令：\n"@邮箱账号+密码"来绑定账号密码,\n'
+                    '"个人网络信息",可获取绑定的mac地址和分配的ip,\n'
+                    '"查[第一/1学期]成绩",默认获取最新成绩,\n'
+                    '"今/明日课表"来获取课表,\n'
+                    '"开启/关闭课表推送",\n'
+                    '"今日天气",\n')
 
 
 # 对消息进行回应
 @bot.register(my_friend)
-def print_messages(msg):
+def main(msg):
     chat = msg.chat
     wxid = str(chat.wxid)
     nick_name = chat.nick_name
@@ -35,12 +37,12 @@ def print_messages(msg):
         pass
     if msg.type == 'Text':
         if msg.text == '帮助':
-            chat.send('可用指令：\n“@邮箱账号+密码”来绑定账号密码,\n'
-                      '“个人网络信息”,可获取绑定的mac地址和分配的ip,\n'
-                      '“查[第一/1学期]成绩”,默认获取最新成绩,\n'
-                      '“今/明日课表”来获取课表,\n'
-                      '“开启/关闭课表推送”,\n'
-                      '“今日天气”,\n')
+            chat.send('可用指令：\n"@邮箱账号+密码"来绑定账号密码,\n'
+                      '"个人网络信息",可获取绑定的mac地址和分配的ip,\n'
+                      '"查[第一/1学期]成绩",默认获取最新成绩,\n'
+                      '"今/明日课表"来获取课表,\n'
+                      '"开启/关闭课表推送",\n'
+                      '"今日天气",\n')
 
         if re.match('个人(.*?)信息', msg.text):
             try:
@@ -85,7 +87,7 @@ def print_messages(msg):
                 if type(term) == int:
                     scores = get_score(wxid, nick_name, term=term)
                 else:
-                    raise UserError('格式错误,\n格式为“查[第一/1学期]成绩”。')
+                    raise UserError('格式错误,\n格式为"查[第一/1学期]成绩"。')
             except UserError as e:
                 chat.send(e.value)
             else:
@@ -117,6 +119,24 @@ def print_messages(msg):
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
                 chat.send('已'+msg.text)
+
+
+# 个人指令
+@bot.register(myself)
+def own(msg):
+    chat = msg.chat
+    wxid = str(chat.wxid)
+    nick_name = chat.nick_name
+    if msg.type == 'Text':
+        if msg.text == '帮助':
+            chat.send('可用指令：\n"@邮箱账号+密码"来绑定账号密码,\n'
+                      '"个人网络信息",可获取绑定的mac地址和分配的ip,\n'
+                      '"查[第一/1学期]成绩",默认获取最新成绩,\n'
+                      '"今/明日课表"来获取课表,\n'
+                      '"开启/关闭课表推送",\n'
+                      '"今日天气",\n'
+                      '"实时温湿度",\n'
+                      '"今日/2017-**-**温湿度"')
 
 
 def alarm():
@@ -169,4 +189,5 @@ def pusher():
 if __name__ == '__main__':
     _thread.start_new_thread(pusher, ())
     # _thread.start_new_thread(alarm, ())
+    # _thread.start_new_thread(save_dht11, ())
     embed()

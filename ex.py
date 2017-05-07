@@ -1,14 +1,7 @@
-import pymysql.cursors
 from mjlu import *
 from datetime import datetime
 from collections import OrderedDict
-# 登录信息存在文件里防泄露
-connect_data = open("/home/db.txt", 'r')
-data = connect_data.read().split('\n')
-
-connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                              db=data[3], charset=data[4])
-connections.autocommit(1)
+from db import *
 
 
 # 保存(微信号,昵称,邮箱账号,密码)
@@ -50,7 +43,7 @@ def get_score(wxid, nick_name, term=0):
 def get_course(wxid, nick_name, day=0):
     username, password = db_load(wxid, nick_name)
     courses = mjlu(username, password).get_course()
-    weekday = datetime.now().weekday() + day
+    weekday = datetime.now().weekday() -7 + day
     week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     courses_ = {}
     for course in courses:
