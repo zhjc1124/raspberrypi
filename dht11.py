@@ -9,13 +9,12 @@ def dht11():
     return humidity, temperature
 
 
-def save_dht11():
-    while True:
-        try:
-            with connections.cursor() as cursor:
-                humidity, temperature = dht11()
-                if humidity and temperature:
-                    cursor.execute('insert into dht11(temperature, humidity) values(%d,%d);', (humidity, temperature))
-        except Exception:
-            continue
-        time.sleep(60)
+
+try:
+    with connections.cursor() as cursor:
+        humidity, temperature = dht11()
+        if humidity and temperature:
+            cursor.execute('insert into dht11(temperature, humidity) values(%d,%d);', (humidity, temperature))
+except Exception:
+    continue
+time.sleep(60)
