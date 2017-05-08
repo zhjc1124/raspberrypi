@@ -1,6 +1,5 @@
 import Adafruit_DHT
 from db import *
-import time
 
 
 def dht11():
@@ -9,12 +8,10 @@ def dht11():
     return humidity, temperature
 
 
-
 try:
     with connections.cursor() as cursor:
         humidity, temperature = dht11()
         if humidity and temperature:
             cursor.execute('insert into dht11(temperature, humidity) values(%d,%d);', (humidity, temperature))
 except Exception:
-    continue
-time.sleep(60)
+    pass
