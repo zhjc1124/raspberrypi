@@ -121,23 +121,6 @@ def main(msg):
                 chat.send('已'+msg.text)
 
 
-# 个人指令
-@bot.register(myself)
-def own(msg):
-    chat = msg.chat
-    wxid = str(chat.wxid)
-    nick_name = chat.nick_name
-    if msg.type == 'Text':
-        if msg.text == '帮助':
-            chat.send('可用指令：\n"@邮箱账号+密码"来绑定账号密码,\n'
-                      '"个人网络信息",可获取绑定的mac地址和分配的ip,\n'
-                      '"查[第一/1学期]成绩",默认获取最新成绩,\n'
-                      '"今/明日课表"来获取课表,\n'
-                      '"开启/关闭课表推送",\n'
-                      '"今日天气",\n'
-                      '"实时温湿度",\n'
-                      '"今日/2017-**-**温湿度"')
-
 
 def alarm():
     s = requests.session()

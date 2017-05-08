@@ -13,5 +13,5 @@ try:
         humidity, temperature = dht11()
         if humidity and temperature:
             cursor.execute('insert into dht11(temperature, humidity) values(%d,%d);', (humidity, temperature))
-except Exception:
-    pass
+except Exception as e:
+    print(e)
