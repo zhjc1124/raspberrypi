@@ -120,7 +120,7 @@ def main(msg):
             else:
                 chat.send('已'+msg.text)
         if chat == myself:
-            if msg.text = '棒棒':
+            if msg.text == '棒棒':
                 chat.send('23333333')
 
 
