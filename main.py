@@ -2,10 +2,8 @@ from wxpy import *
 from ex import *
 import re
 import _thread
-try:
-    from hardware import *
-except ImportError as e:
-    print(e)
+from dht11 import *
+from hardware import *
 
 bot = Bot(True, True)
 my_friend = bot.friends()
@@ -120,8 +118,8 @@ def main(msg):
             else:
                 chat.send('已'+msg.text)
         if chat == myself:
-            if msg.text == '棒棒':
-                chat.send('23333333')
+            if msg.text == '实时温湿度':
+                chat.send('湿度:%s%, \n温度: %s℃' % dht11())
 
 
 def alarm():

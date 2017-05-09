@@ -1,4 +1,8 @@
-import Adafruit_DHT
+try:
+    import Adafruit_DHT
+except ImportError:
+    pass
+
 from db import *
 
 
@@ -8,11 +12,11 @@ def dht11():
     print(humidity, temperature)
     return humidity, temperature
 
-
-try:
-    with connections.cursor() as cursor:
-        humidity, temperature = dht11()
-        if humidity and temperature:
-            cursor.execute('insert into dht11(humidity, temperature) values(%s,%s);', (humidity, temperature))
-except Exception as e:
-    print(e)
+if __name__ == '__main__':
+    try:
+        with connections.cursor() as cursor:
+            humidity, temperature = dht11()
+            if humidity and temperature:
+                cursor.execute('insert into dht11(humidity, temperature) values(%s,%s);', (humidity, temperature))
+    except Exception as e:
+        print(e)
