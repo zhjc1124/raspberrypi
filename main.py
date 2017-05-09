@@ -119,7 +119,9 @@ def main(msg):
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
                 chat.send('已'+msg.text)
-
+        if chat == myself:
+            if msg.text = '棒棒':
+                chat.send('23333333')
 
 
 def alarm():
