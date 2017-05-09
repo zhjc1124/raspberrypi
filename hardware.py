@@ -8,4 +8,4 @@ def light_on():
 
 
 def draw_dht1(date):
-
+    pass
