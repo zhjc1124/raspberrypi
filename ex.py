@@ -124,9 +124,8 @@ def get_weather():
 
 
 def latest_pic():
-    response = requests.get('http://www.zhjc1124.com/?action=snapshot')
-    with open('pic.jpg', 'wb') as f:
-        f.write(response.content)
+    import os
+    os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot')
     return 'pic.jpg'
 
 

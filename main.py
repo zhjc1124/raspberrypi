@@ -134,7 +134,6 @@ def main(msg):
                 chat.send_image(latest_pic())
 
 
-
 def alarm():
     s = requests.session()
     post_data = {
