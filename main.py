@@ -147,7 +147,9 @@ def alarm():
         time.sleep(1)
         response = s.get('http://192.168.1.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
         devices = json.loads(response.content.decode('utf8'))
-        return '90:FD:61:6E:07:A8' in devices[0]['assoclist']
+        mac_lists = ['34:80:B3:42:9D:7D', '90:FD:61:6E:07:A8']
+        return any([mac in devices[0]['assoclist'] for mac in mac_lists])
+
     while True:
         mac_status = check_mac()
         if mac_status:
