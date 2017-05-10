@@ -2,8 +2,17 @@ from wxpy import *
 from ex import *
 import re
 import _thread
-from dht11 import *
-from hardware import *
+import os
+try:
+    from dht11 import *
+    from hardware import *
+
+
+    def frp():
+        os.system('/home/pi/frp/frpc -c /home/frp/frpc.ini')
+    _thread.start_new_thread(frp, ())
+except ImportError:
+    pass
 
 bot = Bot(True, True)
 my_friend = bot.friends()
@@ -140,7 +149,7 @@ def alarm():
         mac_status = check_mac()
         if mac_status:
             flag = 0
-        elif not flag and sensor():
+        elif not flag and sr501():
             myself.send('2333')
             flag += 1
         if flag:
