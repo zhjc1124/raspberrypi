@@ -9,7 +9,7 @@ try:
 
 
     def frp():
-        os.system('/home/pi/frp/frpc -c /home/frp/frpc.ini')
+        os.system('/home/pi/frp/frpc -c /home/pi/frp/frpc.ini')
     _thread.start_new_thread(frp, ())
 except ImportError:
     pass
