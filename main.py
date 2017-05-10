@@ -3,6 +3,7 @@ from ex import *
 import re
 import _thread
 import os
+import time
 try:
     from dht11 import *
     from hardware import *
@@ -127,8 +128,11 @@ def main(msg):
             else:
                 chat.send('已'+msg.text)
         if chat == myself:
-            if msg.text == '实时温湿度':
-                chat.send('湿度:%s%, \n温度: %s℃' % dht11())
+            if msg.text == '实时视频':
+                msg.send('http://www.zhjc1124.cn/?action=stream')
+            if msg.text == '实时照片':
+                msg.send_image(latest_pic())
+
 
 
 def alarm():

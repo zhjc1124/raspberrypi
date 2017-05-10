@@ -123,5 +123,10 @@ def get_weather():
            '℃\n气象：' + weather['now']['text']
 
 
+def latest_pic():
+    response = requests.get('http://www.zhjc1124.com/?action=snapshot')
+    with open('pic.jpg', 'wb') as f:
+        f.write(response.content)
+    return 'pic.jpg'
 
 
