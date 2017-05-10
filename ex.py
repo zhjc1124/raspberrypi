@@ -123,7 +123,7 @@ def get_weather():
 
 def latest_pic():
     import os
-    os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot')
+    os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot &')
     return 'pic.jpg'
 
 
