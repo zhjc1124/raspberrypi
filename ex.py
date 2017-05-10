@@ -67,7 +67,6 @@ def get_course(wxid, nick_name, day=0):
         if _:
             _ = _[0]
             _ = '#' + _['courseName'] + '\n\t' + _['courseTime'] + '\n\t' + _['courseAddress'] + '\n'
-            course = OrderedDict(course, **{index: _})
     return course
 
 
