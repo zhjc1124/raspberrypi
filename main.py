@@ -149,20 +149,14 @@ def alarm():
         devices = json.loads(response.content.decode('utf8'))
         mac_lists = ['34:80:B3:42:9D:7D', '90:FD:61:6E:07:A8']
         return any([mac in devices[0]['assoclist'] for mac in mac_lists])
-
     while True:
-        mac_status = check_mac()
-        if mac_status:
+        if not flag:
+            if (not check_mac()) and sr501():
+                myself.send('检测到异常,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
+                myself.send_image(latest_pic())
+                flag = 1
+        if check_mac():
             flag = 0
-        elif not flag and sr501():
-            myself.send('检测到异常,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
-            myself.send_image(latest_pic())
-            flag += 1
-        if flag:
-            flag += 1
-        if flag == 600 or sr501():
-            flag = 0
-
 
 def pusher():
     print('PUSHER SET SUCCESS')
