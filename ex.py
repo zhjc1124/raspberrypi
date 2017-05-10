@@ -139,8 +139,7 @@ def check_mac():
         'luci_password': 'admin'
     }
     s.post('http://192.168.1.1/cgi-bin/luci/admin/network/wireless', post_data)
-    flag = 0
-    time.sleep(1)
+    time.sleep(3)
     response = s.get('http://192.168.1.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
     devices = json.loads(response.content.decode('utf8'))
     mac_lists = ['34:80:B3:42:9D:7D', '90:FD:61:6E:07:A8']

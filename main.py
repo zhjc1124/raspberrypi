@@ -135,6 +135,7 @@ def main(msg):
 
 
 def alarm():
+    flag = 0
     while True:
         if not flag:
             mac_status = check_mac()
