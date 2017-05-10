@@ -130,7 +130,7 @@ def main(msg):
         if chat == myself:
             if msg.text == '实时视频':
                 chat.send('http://www.zhjc1124.cn/?action=stream')
-            if msg.text == '实时照片':
+            if msg.text == '实时照片' or msg.text == '实时图片':
                 chat.send_image(latest_pic())
 
 
@@ -153,11 +153,12 @@ def alarm():
         if mac_status:
             flag = 0
         elif not flag and sr501():
-            myself.send('2333')
+            myself.send('检测到异常,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
+            myself.send_image(latest_pic())
             flag += 1
         if flag:
             flag += 1
-        if flag == 600:
+        if flag == 600 or sr501():
             flag = 0
 
 
