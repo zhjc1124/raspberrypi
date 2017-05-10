@@ -151,7 +151,9 @@ def alarm():
         return any([mac in devices[0]['assoclist'] for mac in mac_lists])
     while True:
         if not flag:
-            if (not check_mac()) and sr501():
+            mac_status = check_mac()
+            print(mac_status)
+            if (not mac_status) and sr501():
                 myself.send('检测到异常,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
                 myself.send_image(latest_pic())
                 flag = 1
