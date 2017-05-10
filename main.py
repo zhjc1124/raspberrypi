@@ -129,9 +129,9 @@ def main(msg):
                 chat.send('已'+msg.text)
         if chat == myself:
             if msg.text == '实时视频':
-                msg.send('http://www.zhjc1124.cn/?action=stream')
+                chat.send('http://www.zhjc1124.cn/?action=stream')
             if msg.text == '实时照片':
-                msg.send_image(latest_pic())
+                chat.send_image(latest_pic())
 
 
 
