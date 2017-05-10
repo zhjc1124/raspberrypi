@@ -1,7 +1,7 @@
 from mjlu import *
 from datetime import datetime
 from db import *
-
+import time
 
 # 保存(微信号,昵称,邮箱账号,密码)
 def save(wxid, nick_name, username, password):
@@ -123,7 +123,27 @@ def get_weather():
 
 def latest_pic():
     import os
-    os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot &')
+    while True:
+        try:
+            os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot &')
+            break
+        except Exception:
+            continue
     return 'pic.jpg'
+
+
+def check_mac():
+    s = requests.session()
+    post_data = {
+        'luci_username': 'root',
+        'luci_password': 'admin'
+    }
+    s.post('http://192.168.1.1/cgi-bin/luci/admin/network/wireless', post_data)
+    flag = 0
+    time.sleep(1)
+    response = s.get('http://192.168.1.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
+    devices = json.loads(response.content.decode('utf8'))
+    mac_lists = ['34:80:B3:42:9D:7D', '90:FD:61:6E:07:A8']
+    return any([mac in devices[0]['assoclist'] for mac in mac_lists])
 
 

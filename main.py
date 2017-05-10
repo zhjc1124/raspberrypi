@@ -3,7 +3,7 @@ from ex import *
 import re
 import _thread
 import os
-import time
+
 try:
     from dht11 import *
     from hardware import *
@@ -135,30 +135,17 @@ def main(msg):
 
 
 def alarm():
-    s = requests.session()
-    post_data = {
-        'luci_username': 'root',
-        'luci_password': 'admin'
-    }
-    s.post('http://192.168.1.1/cgi-bin/luci/admin/network/wireless', post_data)
-    flag = 0
-
-    def check_mac():
-        time.sleep(1)
-        response = s.get('http://192.168.1.1/cgi-bin/luci/admin/network/wireless_status/ra0.network1?_=0.24001739120614496')
-        devices = json.loads(response.content.decode('utf8'))
-        mac_lists = ['34:80:B3:42:9D:7D', '90:FD:61:6E:07:A8']
-        return any([mac in devices[0]['assoclist'] for mac in mac_lists])
     while True:
         if not flag:
             mac_status = check_mac()
             print(mac_status)
             if (not mac_status) and sr501():
-                myself.send('检测到异常,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
+                myself.send('检测到异常人,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
                 myself.send_image(latest_pic())
                 flag = 1
         if check_mac():
             flag = 0
+
 
 def pusher():
     print('PUSHER SET SUCCESS')
@@ -182,6 +169,5 @@ def pusher():
             pass
 if __name__ == '__main__':
     _thread.start_new_thread(pusher, ())
-    # _thread.start_new_thread(alarm, ())
-    # _thread.start_new_thread(save_dht11, ())
+    _thread.start_new_thread(alarm, ())
     embed()
