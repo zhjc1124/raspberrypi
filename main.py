@@ -141,8 +141,7 @@ def alarm():
             mac_status = check_mac()
             print(mac_status)
             if (not mac_status) and sr501():
-                myself.send('检测到异常人,清检查照片或者视频:http://www.zhjc1124.cn/?action=stream')
-                myself.send_image(latest_pic())
+                myself.send('检测到异常人,清检查视频:http://www.zhjc1124.cn/?action=stream')
                 flag = 1
         if check_mac():
             flag = 0
@@ -160,7 +159,7 @@ def pusher():
                     if datetime.now() > value:
                         for push_user in pusher_check():
                             user = bot.friends().search(push_user[1])[0]
-                            course = get_course(*push_user[:2]).get(index)
+                            course = get_course(*push_user[:2]).get(str(index))
                             if course:
                                 user.send(course)
                             if not index:
