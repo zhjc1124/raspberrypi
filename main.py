@@ -105,7 +105,7 @@ def main(msg):
                 else:
                     chat.send('无课')
 
-        if msg.text.endswith('课表推送'):
+        if msg.text.endswith('推送'):
             try:
                 if msg.text.startswith('开启'):
                     status = True
