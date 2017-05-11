@@ -129,6 +129,9 @@ def main(msg):
                 chat.send_image(draw_temp(1))
             else:
                 chat.send_image(draw_temp())
+        if msg.text == '播放警报':
+            os.system('omxplayer alarm.mp3 &')
+            chat.send('已播放警报')
 
 
 def alarm():
