@@ -13,10 +13,6 @@ def sr501():
     return GPIO.input(11)
 
 
-def mq2():
-    return GPIO.input(15)
-
-
 def relay(status):
     GPIO.output(13, status)
     return 'OK'
