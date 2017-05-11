@@ -20,7 +20,7 @@ def relay():
     return '已开启'
 
 
-def lm35():
+def mq2():
     # 选定串口
     port = "/dev/ttyACM0"
     # 设置波特率
