@@ -14,9 +14,6 @@ def dht11():
 
 if __name__ == '__main__':
     try:
-        connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                                      db=data[3], charset=data[4])
-        connections.autocommit(1)
         with connections.cursor() as cursor:
             humidity, temperature = dht11()
             if humidity and temperature:
