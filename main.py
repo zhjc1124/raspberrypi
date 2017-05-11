@@ -156,7 +156,7 @@ def alarm():
                 mq2_flag = 1
         if mq2_:
             mq2_flag = 0
-        time.sleep(3)
+        time.sleep(1)
 
 
 def pusher():
