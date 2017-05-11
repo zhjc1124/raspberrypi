@@ -1,8 +1,16 @@
 import os
 import glob
 import time
-from datetime import date, timedelta
+
+import matplotlib
+matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdate
+from pandas.io.sql import read_sql
+import pandas as pd
 from db import *
+from datetime import date, timedelta
 
 
 def read_temp_raw():
@@ -27,14 +35,11 @@ def read_temp():
 def draw_temp(datedelta=0):
     date_ = date.today()-timedelta(days=datedelta)
     sql = 'select * from DS18B20 where to_days(time) = to_days("%s");' % date_.isoformat()
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    from pandas.io.sql import read_sql
     temps = read_sql(sql, connections)
     ceiling = str(temps.time[0])
     floor = '~'+str(temps.time[len(temps)-1]).split(' ')[1]
     temps.plot(x='time', y='temperature', title=ceiling+floor)
+    plt.gca().xaxis.set_major_formatter(mdate.DateFormatter('%H:%M'))
     plt.savefig('temperature.jpg')
     return 'temperature.jpg'
 
