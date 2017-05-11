@@ -26,4 +26,5 @@ def mq2():
     if (serialFromArduino.inWaiting() > 0):
         bytes = serialFromArduino.readline()
         num = float(input)
+        print(num)
     return num < 200
