@@ -2,6 +2,7 @@ from mjlu import *
 from datetime import datetime
 from db import *
 import time
+from collections import OrderedDict
 
 
 # 保存(微信号,昵称,邮箱账号,密码)
@@ -61,7 +62,7 @@ def get_course(wxid, nick_name, day=0):
         if _:
             _ = _[0]
             _ = '#' + _['courseName'] + '\n\t' + _['courseTime'] + '\n\t' + _['courseAddress'] + '\n'
-            course = dict(course, **{str(index): _})
+            course = Ordereddict(course, **{str(index): _})
     return course
 
 
