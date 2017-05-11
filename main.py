@@ -123,6 +123,7 @@ def main(msg):
         if msg.text == '开门':
             chat.send(relay())
         if msg.text.endswith('日温度曲线'):
+            print(msg.text)
             from datetime import timedelta
             if msg.text.startswith('昨'):
                 chat.send_image(draw_temp(1))

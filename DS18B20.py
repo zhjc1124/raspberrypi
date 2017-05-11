@@ -25,10 +25,12 @@ def read_temp():
 
 
 def draw_temp(datedelta=0):
-    datetime = date.today()-timedelta(days=datedelta)
-    sql = 'select * from DS18B20 where to_days(time) = to_days("%s");' % datetime.isoformat()
-    from pandas.io.sql import read_sql
+    date_ = date.today()-timedelta(days=datedelta)
+    sql = 'select * from DS18B20 where to_days(time) = to_days("%s");' % date_.isoformat()
+    import matplotlib
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
+    from pandas.io.sql import read_sql
     temps = read_sql(sql, connections)
     ceiling = str(temps.time[0])
     floor = '~'+str(temps.time[len(temps)-1]).split(' ')[1]

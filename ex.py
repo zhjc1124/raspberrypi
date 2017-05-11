@@ -116,7 +116,8 @@ def latest_pic():
     import os
     while True:
         try:
-            os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot &')
+            os.system('rm -rf pic.jpg')
+            os.system('wget -O pic.jpg http://192.168.1.152/?action=snapshot')
             break
         except Exception:
             continue
