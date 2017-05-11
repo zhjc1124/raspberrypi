@@ -140,19 +140,21 @@ def alarm():
     sr501_flag = 0
     mq2_flag = 0
     while True:
+        mac_status = check_mac()
+        sr501_ = sr501()
+        mq2_ = mq2()
         if not sr501_flag:
-            mac_status = check_mac()
-            print('mac: ', mac_status, 'SR501:', sr501(), 'mq2: ', mq2())
-            if (not mac_status) and sr501():
+            print('mac: ', mac_status, 'SR501:', sr501_, 'mq2: ', mq2_)
+            if (not mac_status) and sr501_:
                 myself.send('检测到异常人员,清检查:http://192.168.1.152//?action=stream')
                 sr501_flag = 1
-        if check_mac():
+        if mac_status:
             flag = 0
         if not mq2_flag:
-            if not mq2():
+            if not mq2_:
                 myself.send('检测到烟雾,清检查:http://192.168.1.152//?action=stream')
                 mq2_flag = 1
-        if mq2():
+        if mq2_:
             mq2_flag = 0
         time.sleep(3)
 
