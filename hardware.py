@@ -15,21 +15,17 @@ def mq2():
     return GPIO.input(15)
 
 
-def relay():
-    GPIO.output(13, GPIO.HIGH)
-    return '已开启'
+def relay(status):
+    GPIO.output(13, status)
+    return 'OK'
 
 
 def mq2():
-    # 选定串口
-    port = "/dev/ttyACM0"
-    # 设置波特率
+    port = "/dev/ttyUSB1"
     serialFromArduino = serial.Serial(port, 9600)
     serialFromArduino.flushInput()
-    while True:
-        if (serialFromArduino.inWaiting() > 0):
-            input = serialFromArduino.readline()
-            inputAsInterger = int(input)
-            print("inputAsInterger = " + str(inputAsInterger))
-            print("Temperature: " + str(inputAsInterger * 5 / 10.24))
-        time.sleep(1)
+    num = 0
+    if (serialFromArduino.inWaiting() > 0):
+        bytes = serialFromArduino.readline()
+        num = float(input)
+    return num < 200

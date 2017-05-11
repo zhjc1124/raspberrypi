@@ -120,8 +120,10 @@ def main(msg):
             chat.send('http://192.168.1.152/?action=stream')
         if msg.text == '实时照片' or msg.text == '实时图片':
             chat.send_image(latest_pic())
-        if msg.text == '开门':
-            chat.send(relay())
+        if msg.text == '打开继电器':
+            chat.send(relay(1))
+        if msg.text == '关闭继电器':
+            chat.send(relay(0))
         if msg.text.endswith('日温度曲线'):
             print(msg.text)
             from datetime import timedelta
