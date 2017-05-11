@@ -5,6 +5,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN)
 GPIO.setup(15, GPIO.IN)
 GPIO.setup(13, GPIO.OUT)
+GPIO.output(13, 0)
 
 
 def sr501():
