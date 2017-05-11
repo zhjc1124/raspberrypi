@@ -33,7 +33,3 @@ def lm35():
             print("inputAsInterger = " + str(inputAsInterger))
             print("Temperature: " + str(inputAsInterger * 5 / 10.24))
         time.sleep(1)
-
-
-def draw_dht1(date=datetime.now().date().isoformat()):
-    pass
