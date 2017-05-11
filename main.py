@@ -136,7 +136,7 @@ def alarm():
     while True:
         if not sr501_flag:
             mac_status = check_mac()
-            print('mac: ', mac_status, 'SR501:', sr501())
+            print('mac: ', mac_status, 'SR501:', sr501(), 'mq2: ', mq2())
             if (not mac_status) and sr501():
                 myself.send('检测到异常人员,清检查:http://www.zhjc1124.cn/?action=stream')
                 sr501_flag = 1
