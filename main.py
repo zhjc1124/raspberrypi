@@ -117,7 +117,7 @@ def main(msg):
             else:
                 chat.send('已'+msg.text)
         if msg.text == '实时视频':
-            chat.send('http://www.zhjc1124.cn/?action=stream')
+            chat.send('http://192.168.1.152/?action=stream')
         if msg.text == '实时照片' or msg.text == '实时图片':
             chat.send_image(latest_pic())
         if msg.text == '开门':
@@ -142,13 +142,13 @@ def alarm():
             mac_status = check_mac()
             print('mac: ', mac_status, 'SR501:', sr501(), 'mq2: ', mq2())
             if (not mac_status) and sr501():
-                myself.send('检测到异常人员,清检查:http://www.zhjc1124.cn/?action=stream')
+                myself.send('检测到异常人员,清检查:http://192.168.1.152//?action=stream')
                 sr501_flag = 1
         if check_mac():
             flag = 0
         if not mq2_flag:
             if not mq2():
-                myself.send('检测到烟雾,清检查:http://www.zhjc1124.cn/?action=stream')
+                myself.send('检测到烟雾,清检查:http://192.168.1.152//?action=stream')
                 mq2_flag = 1
         if mq2():
             mq2_flag = 0
@@ -185,7 +185,7 @@ if __name__ == '__main__':
             os.system('/home/pi/frp/frpc -c /home/pi/frp/frpc.ini')
 
 
-        _thread.start_new_thread(frp, ())
+        # _thread.start_new_thread(frp, ())
         _thread.start_new_thread(alarm, ())
     except ImportError:
         pass
