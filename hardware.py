@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import serial
+import os
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN)
 GPIO.setup(15, GPIO.IN)
@@ -22,7 +23,7 @@ def relay(status):
 
 
 def mq2():
-    port = "/dev/ttyUSB1"
+    port = "/dev/" + [i for i in os.listdir('/dev') if i.startswith('ttyUSB')][0]
     serialFromArduino = serial.Serial(port, 9600)
     serialFromArduino.flushInput()
     num = 0
