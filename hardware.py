@@ -1,4 +1,3 @@
-from datetime import datetime
 import RPi.GPIO as GPIO
 import time
 import serial

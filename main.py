@@ -122,6 +122,12 @@ def main(msg):
             chat.send_image(latest_pic())
         if msg.text == '开门':
             chat.send(relay())
+        if msg.text.endswith('日温度曲线'):
+            from datetime import timedelta
+            if msg.text.startswith('昨'):
+                chat.send_image(draw_temp(1))
+            else:
+                chat.send_image(draw_temp())
 
 
 def alarm():
@@ -167,7 +173,7 @@ def pusher():
 
 if __name__ == '__main__':
     try:
-        from dht11 import *
+        from DS18B20 import *
         from hardware import *
 
 
