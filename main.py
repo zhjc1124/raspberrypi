@@ -4,17 +4,6 @@ import re
 import _thread
 import os
 
-try:
-    from dht11 import *
-    from hardware import *
-
-
-    def frp():
-        os.system('/home/pi/frp/frpc -c /home/pi/frp/frpc.ini')
-    _thread.start_new_thread(frp, ())
-except ImportError:
-    pass
-
 bot = Bot(True, True)
 my_friend = bot.friends()
 myself = my_friend.search('Zzzzz')[0]
@@ -127,24 +116,32 @@ def main(msg):
                 chat.send(e.value+',\n请发送 @邮箱账号+密码来绑定账号密码。')
             else:
                 chat.send('已'+msg.text)
-        if chat == myself:
-            if msg.text == '实时视频':
-                chat.send('http://www.zhjc1124.cn/?action=stream')
-            if msg.text == '实时照片' or msg.text == '实时图片':
-                chat.send_image(latest_pic())
+        if msg.text == '实时视频':
+            chat.send('http://www.zhjc1124.cn/?action=stream')
+        if msg.text == '实时照片' or msg.text == '实时图片':
+            chat.send_image(latest_pic())
+        if msg.text == '开门':
+            chat.send(relay())
 
 
 def alarm():
-    flag = 0
+    sr501_flag = 0
+    mq2_flag = 0
     while True:
-        if not flag:
+        if not sr501_flag:
             mac_status = check_mac()
             print(mac_status)
             if (not mac_status) and sr501():
-                myself.send('检测到异常人,清检查视频:http://www.zhjc1124.cn/?action=stream')
-                flag = 1
+                myself.send('检测到异常人员,清检查:http://www.zhjc1124.cn/?action=stream')
+                sr501_flag = 1
         if check_mac():
             flag = 0
+        if not mq2_flag:
+            if not mq2():
+                myself.send('检测到烟雾,清检查:http://www.zhjc1124.cn/?action=stream')
+                mq2_flag = 1
+        if mq2():
+            mq2_flag = 0
 
 
 def pusher():
@@ -167,7 +164,20 @@ def pusher():
                         break
         while datetime.now().hour > 0:
             pass
+
 if __name__ == '__main__':
+    try:
+        from dht11 import *
+        from hardware import *
+
+
+        def frp():
+            os.system('/home/pi/frp/frpc -c /home/pi/frp/frpc.ini')
+
+
+        _thread.start_new_thread(frp, ())
+        _thread.start_new_thread(alarm, ())
+    except ImportError:
+        pass
     _thread.start_new_thread(pusher, ())
-    _thread.start_new_thread(alarm, ())
     embed()

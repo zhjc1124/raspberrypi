@@ -3,12 +3,10 @@ from datetime import datetime
 from db import *
 import time
 
+
 # 保存(微信号,昵称,邮箱账号,密码)
 def save(wxid, nick_name, username, password):
     mjlu(username, password)
-    connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                                  db=data[3], charset=data[4])
-    connections.autocommit(1)
     with connections.cursor() as cursor:
         cursor.execute('delete from user where wxid=%s and nick_name=%s', (wxid, nick_name))
         print((wxid, nick_name, username, password))
@@ -18,9 +16,6 @@ def save(wxid, nick_name, username, password):
 
 # 根据微信号和昵称从数据库中读取昵称
 def db_load(wxid, nick_name):
-    connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                                  db=data[3], charset=data[4])
-    connections.autocommit(1)
     with connections.cursor() as cursor:
         cursor.execute('select * from user where wxid=%s and nick_name=%s;', (wxid, nick_name))
         result = cursor.fetchone()
@@ -73,9 +68,7 @@ def get_course(wxid, nick_name, day=0):
 # 修改推送服务开启/关闭状态
 def pusher_record(wxid, nick_name, status):
     db_load(wxid, nick_name)
-    connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                                  db=data[3], charset=data[4])
-    connections.autocommit(1)
+
     with connections.cursor() as cursor:
         cursor.execute('update user set pusher=%s where wxid=%s and nick_name=%s;', (status, wxid, nick_name))
 
@@ -103,9 +96,6 @@ def get_infos(wxid, nick_name, full=False):
 
 
 def pusher_check():
-    connections = pymysql.connect(host=data[0], user=data[1], password=data[2],
-                                  db=data[3], charset=data[4])
-    connections.autocommit(1)
     with connections.cursor() as cursor:
         cursor.execute('select * from user where pusher=True;')
         result = cursor.fetchall()
