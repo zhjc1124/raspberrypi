@@ -134,6 +134,16 @@ def main(msg):
         if msg.text == '播放警报':
             os.system('omxplayer alarm.mp3 &')
             chat.send('已播放警报')
+        if msg.text.endswith('闹钟'):
+            hour, minute, *_ = msg.text.split(':')
+            clock()
+            chat.send('已播放闹钟')
+
+
+def clock(hour, minute):
+    now = datetime.now()
+    if hour == now.hour and minute == now.minute:
+        os.system('omxplayer clock.mp3 &')
 
 
 def alarm():
