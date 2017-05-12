@@ -126,7 +126,6 @@ def main(msg):
             chat.send(relay(0))
         if msg.text.endswith('日温度曲线'):
             print(msg.text)
-            from datetime import timedelta
             if msg.text.startswith('昨'):
                 chat.send_image(draw_temp(1))
             else:
@@ -138,6 +137,8 @@ def main(msg):
             hour, minute, *_ = msg.text.split(':')
             _thread.start_new_thread(clock, (hour, minute))
             chat.send('已开启闹钟')
+        if msg.text == '开门':
+            chat.send(sg90())
 
 
 def clock(hour, minute):
