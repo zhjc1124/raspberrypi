@@ -39,6 +39,6 @@ def mq2():
 
 def sg90():
     GPIO.output(16, 1)
-    time.sleep(2.5)
+    time.sleep(3.5)
     GPIO.output(16, 0)
     return 'OK'
