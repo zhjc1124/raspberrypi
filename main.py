@@ -145,6 +145,7 @@ def clock(hour, minute):
         now = datetime.now()
         if hour == now.hour and minute == now.minute:
             os.system('omxplayer clock.mp3 &')
+            break
         time.sleep(10)
 
 
@@ -157,7 +158,6 @@ def alarm():
         mq2_ = mq2()
         print('mac: ', mac_status, 'SR501:', sr501_, 'mq2: ', mq2_)
         if not sr501_flag:
-
             if (not mac_status) and sr501_:
                 myself.send('检测到异常人员,清检查:http://192.168.1.152//?action=stream')
                 sr501_flag = 1
