@@ -38,6 +38,7 @@ def mq2():
 
 
 def sg90():
+    print('doing')
     GPIO.output(16, 1)
     time.sleep(1.5)
     GPIO.output(16, 0)
