@@ -6,7 +6,7 @@ import os
 
 bot = Bot(True, True)
 my_friend = bot.friends()
-myself = my_friend.search('Zzzzz')[0]
+myself = my_friend.search('姚泽昊')[0]
 myself.send('已开启服务')
 
 
@@ -146,9 +146,9 @@ def clock(hour, minute):
         now = datetime.now()
         print('register:', now, hour, minute)
         if hour == now.hour and minute == now.minute:
-            os.system('omxplayer clock.wav &')
             break
         time.sleep(10)
+    os.system('omxplayer clock.wav &')
 
 
 def alarm():
@@ -167,6 +167,7 @@ def alarm():
             flag = 0
         if not mq2_flag:
             if not mq2_:
+                os.system('omxplayer alarm.mp3 &')
                 myself.send('检测到烟雾,清检查:http://192.168.1.152//?action=stream')
                 mq2_flag = 1
         if mq2_:
