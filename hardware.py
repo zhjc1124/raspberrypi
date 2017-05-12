@@ -5,7 +5,7 @@ import os
 import atexit
 import signal
 atexit.register(GPIO.cleanup)
-servopin = 6
+servopin = 22
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN)
 GPIO.setup(15, GPIO.IN)
