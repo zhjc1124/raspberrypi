@@ -38,6 +38,7 @@ def draw_temp(datedelta=0):
     temps = read_sql(sql, connections)
     ceiling = str(temps.time[0])
     floor = '~'+str(temps.time[len(temps)-1]).split(' ')[1]
+    print('drawing picture')
     temps.plot(x='time', y='temperature', title=ceiling+floor)
     plt.gca().xaxis.set_major_formatter(mdate.DateFormatter('%H:%M'))
     plt.savefig('temperature.jpg')
