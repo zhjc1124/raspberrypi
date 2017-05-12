@@ -143,6 +143,7 @@ def main(msg):
 def clock(hour, minute):
     while True:
         now = datetime.now()
+        print('register:', now, hour, minute)
         if hour == now.hour and minute == now.minute:
             os.system('omxplayer clock.mp3 &')
             break
