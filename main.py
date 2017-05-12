@@ -161,14 +161,14 @@ def alarm():
         print('mac: ', mac_status, 'SR501:', sr501_, 'mq2: ', mq2_)
         if not sr501_flag:
             if (not mac_status) and sr501_:
-                myself.send('检测到异常人员,清检查:http://192.168.1.152//?action=stream')
+                myself.send('检测到异常人员,清检查:http://192.168.1.152/?action=stream')
                 sr501_flag = 1
         if mac_status:
             flag = 0
         if not mq2_flag:
             if not mq2_:
                 os.system('omxplayer alarm.mp3 &')
-                myself.send('检测到烟雾,清检查:http://192.168.1.152//?action=stream')
+                myself.send('检测到烟雾,清检查:http://192.168.1.152/?action=stream')
                 mq2_flag = 1
         if mq2_:
             mq2_flag = 0
