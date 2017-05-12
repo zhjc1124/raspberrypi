@@ -30,7 +30,8 @@ def mq2():
         bytes = serialFromArduino.readline()
         print(bytes)
         num = float(bytes)
-    return num<200
+        serialFromArduino.flushInput()
+    return num < 200
 
 
 def sg90():
