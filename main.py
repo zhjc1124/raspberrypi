@@ -136,14 +136,16 @@ def main(msg):
             chat.send('已播放警报')
         if msg.text.endswith('闹钟'):
             hour, minute, *_ = msg.text.split(':')
-            clock(hour, minute)
-            chat.send('已播放闹钟')
+            _thread.start_new_thread(clock, (hour, minute))
+            chat.send('已开启闹钟')
 
 
 def clock(hour, minute):
-    now = datetime.now()
-    if hour == now.hour and minute == now.minute:
-        os.system('omxplayer clock.mp3 &')
+    while True:
+        now = datetime.now()
+        if hour == now.hour and minute == now.minute:
+            os.system('omxplayer clock.mp3 &')
+        time.sleep(10)
 
 
 def alarm():
