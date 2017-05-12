@@ -9,7 +9,8 @@ servopin = 22
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN)
 GPIO.setup(15, GPIO.IN)
-GPIO.setup(13, GPIO.OUT, initial=False)
+GPIO.setup(13, GPIO.OUT)
+GPIO.output(13, 0)
 port = "/dev/" + [i for i in os.listdir('/dev') if i.startswith('ttyUSB')][0]
 serialFromArduino = serial.Serial(port, 9600)
 serialFromArduino.flushInput()
