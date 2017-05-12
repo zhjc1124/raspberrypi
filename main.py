@@ -136,7 +136,7 @@ def main(msg):
             chat.send('已播放警报')
         if msg.text.endswith('闹钟'):
             hour, minute, *_ = msg.text.split(':')
-            clock()
+            clock(hour, minute)
             chat.send('已播放闹钟')
 
 
