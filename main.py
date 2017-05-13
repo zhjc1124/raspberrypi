@@ -54,6 +54,7 @@ def main(msg):
                       '"开门",')
 
         if re.match('个人(.*?)信息', msg.text):
+            print(msg.text)
             try:
                 txt = re.match('个人(.*?)信息', msg.text).group(1)
                 if txt == '网络':
@@ -67,6 +68,7 @@ def main(msg):
                 chat.send(infos)
 
         if msg.text == '今日天气':
+            print(msg.text)
             try:
                 weather = get_weather()
             except UserError as e:
@@ -76,6 +78,7 @@ def main(msg):
 
         # 绑定邮箱账号相关
         if msg.text.startswith('@'):
+            print(msg.text)
             try:
                 username, password = msg.text[1:].split('+')
                 chat.send(save(wxid, nick_name, username, password))
@@ -83,6 +86,7 @@ def main(msg):
                 chat.send(e.value)
 
         if re.match('查(.*?)成绩', msg.text):
+            print(msg.text)
             if msg.text == '查成绩':
                 term = 0
             else:
@@ -103,6 +107,7 @@ def main(msg):
                 chat.send(scores)
 
         if msg.text.endswith('日课表'):
+            print(msg.text)
             try:
                 if msg.text.startswith('明'):
                     day = 1
@@ -118,6 +123,7 @@ def main(msg):
                     chat.send('无课')
 
         if msg.text.endswith('推送'):
+            print(msg.text)
             try:
                 if msg.text.startswith('开启'):
                     status = True
@@ -129,12 +135,16 @@ def main(msg):
             else:
                 chat.send('已'+msg.text)
         if msg.text == '实时视频':
+            print(msg.text)
             chat.send('http://192.168.1.152/?action=stream')
         if msg.text == '实时照片' or msg.text == '实时图片':
+            print(msg.text)
             chat.send_image(latest_pic())
         if msg.text == '打开继电器':
+            print(msg.text)
             chat.send(relay(1))
         if msg.text == '关闭继电器':
+            print(msg.text)
             chat.send(relay(0))
         if msg.text.endswith('日温度曲线'):
             print(msg.text)
