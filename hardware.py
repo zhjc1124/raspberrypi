@@ -29,7 +29,7 @@ def relay(status):
 
 def mq2():
     num = 0
-    if (serialFromArduino.inWaiting() > 0):
+    if serialFromArduino.inWaiting() > 0:
         bytes = serialFromArduino.readline()
         print(bytes)
         num = float(bytes)

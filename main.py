@@ -155,22 +155,8 @@ def main(msg):
         if msg.text == '播放警报':
             os.system('omxplayer alarm.mp3 &')
             chat.send('已播放警报')
-        if msg.text.endswith('闹钟'):
-            hour, minute, *_ = msg.text.split(':')
-            _thread.start_new_thread(clock, (hour, minute))
-            chat.send('已开启闹钟')
         if msg.text == '开门':
             chat.send(sg90())
-
-
-def clock(hour, minute):
-    while True:
-        now = datetime.now()
-        print('register:', now, hour, minute)
-        if hour == now.hour and minute == now.minute:
-            break
-        time.sleep(10)
-    os.system('omxplayer clock.wav &')
 
 
 def alarm():

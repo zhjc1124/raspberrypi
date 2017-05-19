@@ -8,7 +8,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdate
 from pandas.io.sql import read_sql
-import pandas as pd
 from db import *
 from datetime import date, timedelta
 
